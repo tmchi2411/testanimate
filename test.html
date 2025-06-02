@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Love Fireworks</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background: url('https://media.giphy.com/media/l0HlKaa2UO6zVYJSo/giphy.gif') center center / cover no-repeat;
+      cursor: pointer;
+      position: relative;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    .love-text {
+      position: absolute;
+      color: pink;
+      font-size: 24px;
+      font-weight: bold;
+      pointer-events: none;
+      animation: rise 1s ease-out forwards;
+      text-shadow: 0 0 10px white, 0 0 20px red;
+    }
+
+    @keyframes rise {
+      0% {opacity: 1; transform: translateY(0);}
+      100% {opacity: 0; transform: translateY(-80px);}
+    }
+
+    .particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: gold;
+      pointer-events: none;
+      animation: explode 800ms ease-out forwards;
+    }
+
+    @keyframes explode {
+      to {
+        transform: translate(var(--dx), var(--dy));
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    document.addEventListener('click', function(e) {
+      const x = e.clientX;
+      const y = e.clientY;
+
+      // 💖 Text bay lên
+      const text = document.createElement('div');
+      text.className = 'love-text';
+      text.innerText = 'my love';
+      text.style.left = x + 'px';
+      text.style.top = y + 'px';
+      document.body.appendChild(text);
+      setTimeout(() => text.remove(), 1000);
+
+      // 🎆 Pháo bông nhỏ
+      for (let i = 0; i < 20; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = x + 'px';
+        p.style.top = y + 'px';
+
+        const angle = Math.random() * 2 * Math.PI;
+        const radius = 60 + Math.random() * 40;
+        const dx = Math.cos(angle) * radius + 'px';
+        const dy = Math.sin(angle) * radius + 'px';
+
+        p.style.setProperty('--dx', dx);
+        p.style.setProperty('--dy', dy);
+
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 800);
+      }
+    });
+  </script>
+</body>
+</html>
